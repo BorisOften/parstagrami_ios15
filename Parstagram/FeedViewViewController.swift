@@ -8,10 +8,13 @@
 import UIKit
 import Parse
 import AlamofireImage
+import MessageInputBar
 
 class FeedViewViewController: UIViewController, UITableViewDelegate,UITableViewDataSource {
     
-
+    let commentBar = MessageInputBar()
+    var showCommentBar = false
+    
     @IBOutlet weak var tableView: UITableView!
     
     var posts = [PFObject]()
@@ -23,6 +26,16 @@ class FeedViewViewController: UIViewController, UITableViewDelegate,UITableViewD
         
         // Do any additional setup after loading the view.
     }
+    
+    override var inputAccessoryView: UIView?{
+        return commentBar
+    }
+    
+    override var canBecomeFirstResponder: Bool{
+        return showCommentBar
+    }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         let query = PFQuery(className: "Posts")
         query.includeKey("author")
